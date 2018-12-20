@@ -1,5 +1,6 @@
 package br.com.leonardomiyagi.alarmmanagertest
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -24,6 +25,7 @@ class AlarmBroadcastReceiver : BroadcastReceiver() {
                 NotificationCompat.Builder(context)
             }
                 .setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("My notification")
