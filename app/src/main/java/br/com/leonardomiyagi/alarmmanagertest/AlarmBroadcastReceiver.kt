@@ -45,6 +45,7 @@ class AlarmBroadcastReceiver : BroadcastReceiver() {
 
             val mNotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+
             mNotificationManager.notify(NOTIFICATION_MESSAGE, mBuilder.build())
         }
     }

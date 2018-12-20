@@ -54,23 +54,11 @@ class MainActivity : AppCompatActivity() {
         }
         setAlarmBtn.setOnClickListener {
             if (dateSelected && timeSelected && date != null) {
-                val alarmIntent = Intent(this, AlarmBroadcastReceiver::class.java)
-                alarmIntent.putExtra(EXTRA_MESSAGE, messageEditText.text.toString())
-                val pendingIntent = PendingIntent.getBroadcast(
-                    this,
-                    REQUEST_CODE_ALARM,
-                    alarmIntent,
-                    0
-                )
-
-                val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, date!!.timeInMillis, pendingIntent)
-                } else {
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, date!!.timeInMillis, pendingIntent)
-                }
+                setAlarm(date!!.timeInMillis)
             }
+        }
+        setQuickAlarmBtn.setOnClickListener {
+            setAlarm(System.currentTimeMillis() + 5000)
         }
     }
 
@@ -81,5 +69,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun onIntentReceived(intent: Intent?) {
         receivedMessageTextView.text = intent?.getStringExtra(EXTRA_MESSAGE)
+
+    }
+
+    private fun setAlarm(timeInMillis: Long) {
+        val alarmIntent = Intent(this, AlarmBroadcastReceiver::class.java)
+        alarmIntent.putExtra(EXTRA_MESSAGE, messageEditText.text.toString())
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            REQUEST_CODE_ALARM,
+            alarmIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent)
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent)
+        }
     }
 }

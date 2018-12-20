@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">AlarmManager Test</string>
     <string name="main_set_alarm">Set Alarm</string>
+    <string name="main_set_quick_alarm">Set Quick Alarm</string>
 </resources>

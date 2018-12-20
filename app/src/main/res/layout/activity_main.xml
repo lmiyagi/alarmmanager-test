@@ -45,6 +45,12 @@
         android:layout_height="wrap_content"
         android:text="@string/main_set_alarm" />
 
+    <Button
+        android:id="@+id/setQuickAlarmBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/main_set_quick_alarm" />
+
     <TextView
         android:id="@+id/receivedMessageTextView"
         android:layout_width="match_parent"
