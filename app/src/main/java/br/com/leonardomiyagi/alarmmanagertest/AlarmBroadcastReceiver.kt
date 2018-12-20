@@ -1,10 +1,12 @@
 package br.com.leonardomiyagi.alarmmanagertest
 
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.support.v4.app.NotificationCompat
 
 /**
@@ -16,12 +18,20 @@ class AlarmBroadcastReceiver : BroadcastReceiver() {
 
         if (context != null && intent != null) {
 
-            val mBuilder = NotificationCompat.Builder(context, "Some")
+            val mBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationCompat.Builder(context, NotificationChannel.DEFAULT_CHANNEL_ID)
+            } else {
+                NotificationCompat.Builder(context)
+            }
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("My notification")
                 .setContentText("This should be working...")
 
             val showTextIntent = Intent(context, MainActivity::class.java)
             showTextIntent.putExtra(EXTRA_MESSAGE, intent.getStringExtra(EXTRA_MESSAGE))
+            showTextIntent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
 
             val resultPendingIntent = PendingIntent.getActivity(
                 context,
